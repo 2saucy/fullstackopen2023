@@ -1,0 +1,36 @@
+[Sequence Diagram IMG]: 
+https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC40IE5ldyBOb3RlCgp1c2VyLT5icm93c2VyOiBXcml0ZSB0aGUgY29udGVudCBvZiBhIG5ldyBub3RlIGluABgFZm9ybSBhbmQgc2VuZCBpdC4KADsHLT5zZXJ2ZXI6IEhUVFAgUE9TVCBodHRwczovL3N0dWRpZXMuY3MuaGVsc2lua2kuZmkvZXhhbXBsZWFwcC9uZXdfbgCBEgUAaAVvdmVyIABJBwpTAFMFIHRha2VzAIEREHRoZSByZXF1ZXN0AIERBQpzYXZlcyBpdCB3aXRoABgHcwAiCW5vdGVzLgplbmQAgVAFCgoAgS4GLQCBfQtSZXNwb25zZQA7BmEgcmVkaXJlY3Rpb24gdG8AOggAgQ0acgA7BWQAIxwgc28gdGhhdACCaQUKcGFnZSB3aWxsIGxvYWQgYWdhaW4AglwGaG93AIMMBXVwZGF0ZWQgaW5mb3JtYXRpb24AgTgLAIMZBWxlZgCDLAUAg0cICkFsbCBzdWJzZXF1ZW50AIIcCHMgYXJlIHdoZW4geW91IGdldCBpbgCCBBIAgz0WR0UAgyUtb3RlcwCCTRNIVE1MLWNvZAAgR21haW4uY3MAVhQAEgkAH0pqAE8ZagAgR2RhdGEuanNvbgCFCBNbewCHFAg6ICJIVE1MIGlzIGVhc3kiLCBkYXRlOiAiMjAxOS0wNS0yMyIgfSwgLi4uXQoKCgoK&s=default
+
+[Sequence Diagram TXT]:
+title 0.4: New Note
+
+user->browser: Write the content of a new note in the form and send it.
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note over server:
+Server takes the content of the request and 
+saves it with the rest of the notes.
+end note
+
+server-->browser: Response with a redirection to notes.
+
+note over server:
+Server respond with a redirection to notes so that the 
+page will load again and show the updated information
+end note
+
+note left of browser:
+All subsequent requests are when you get in notes.
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]

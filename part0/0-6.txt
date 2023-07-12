@@ -1,0 +1,21 @@
+[Sequence Diagram IMG]: 
+https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC42OiBTUEEgTmV3IE5vdGUKCnVzZXItPmJyb3dzZXI6ICBXcml0ZSB0aGUgY29udGVudCBvZiBhIG5ldyBub3RlIGluABgFZm9ybSBhbmQgc2VuZCBpdC4KADwHLT5zZXJ2ZXI6IEhUVFAgUE9TVCBodHRwczovL3N0dWRpZXMuY3MuaGVsc2lua2kuZmkvZXhhbXBsZWFwcC9uZXdfbm90ZV9zcGEKCgBsBW92ZXIgAE0HCkphdmFzY3JpcHQgbWFuaXB1bGEAgScHRE9NIHRvIHJlZHJhdwCBOwVsaXMAgTgFbm90ZXMKdGhlbgCBKAVzIHRvAIFbBQCBIgYgYSBtZXNzYWcAgVYFZm9ybWF0IGpzb24KZW5kAIFuBQoKAIFMBi0AghwLSnNvbiBmaWxlIACBHwdsZWYAgiUFAIJBCApCZWNhdXNlIG9mIACBKgsAgQYSaXMgdXBkYXRlZCBhbGwAgnQFdGltZSB3aXRoIApubyBuZWVkAIFUBmxvYWQAgxUFcGFnZQCBFgk&s=default
+
+[Sequence Diagram TXT]:
+title 0.6: SPA New Note
+
+user->browser:  Write the content of a new note in the form and send it.
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over server:
+Javascript manipulate the DOM to redraw the list of notes
+then sends to the server a message in format json
+end note
+
+server-->browser: Json file 
+
+note left of browser:
+Because of Javascript the list of notes
+is updated all the time with 
+no need to reload the page
+end note
