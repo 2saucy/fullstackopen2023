@@ -18,7 +18,6 @@ const Content = ({ parts }) => {
   )
 }
 
-
 const App = () => {
 
   const course = {
