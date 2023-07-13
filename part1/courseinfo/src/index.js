@@ -1,6 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-
+import ReactDOM from 'react-dom/client'
 
 const Header = ({ course }) => <h1>{course}</h1>
 
@@ -47,4 +45,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
