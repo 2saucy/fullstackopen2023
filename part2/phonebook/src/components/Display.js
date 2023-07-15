@@ -1,21 +1,20 @@
-const Display = ({ filter, persons }) => {
+import Button from "./Button"
+
+const Display = ({ filter, persons, deletePerson }) => {
+
     return(
-        filter ? (
-            <ul>
-              {
-                persons
-                  .filter(person => person.name.toLowerCase().startsWith(filter.toLowerCase()))
-                  .map(person => <li key={person.name}>{person.name} {person.number}</li>)
-              }
-            </ul>
-          ) : (
-            <ul>
-              {
-                persons
-                  .map(person => <li key={person.name}>{person.name} {person.number}</li>)
-              }
-            </ul>
-            )
+      <div>
+        {
+          persons
+            .filter( person => person.name.toLowerCase().startsWith(filter.toLowerCase()))
+            .map( person => (
+              <div key={person.id}>
+                <span>{person.name} {person.number}</span>
+                <Button name={person.name} id={person.id} deletePerson={deletePerson} />
+              </div>
+            ))
+        }
+      </div>
     )
 }
 
