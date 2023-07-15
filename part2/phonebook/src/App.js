@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react'
+import PersonServices from './services/persons'
 import Display from './components/Display'
 import Filter from './components/Filter'
 import Form from './components/Form'
-import PersonServices from './services/persons'
+import Notification from './components/Notification'
+
+
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [ notification, setNotification ] = useState({
+    message: '',
+    error: false
+  })
 
   const handleChangeName = (event) => {
     setNewName(event.target.value)
@@ -22,6 +29,15 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const clearNotification = () => {
+    setTimeout(() => {
+      setNotification({
+        message: '',
+        error: false
+      })
+    }, 5000)
+  }
+
   const addPerson = () => {
     const personObject = {
       name: newName,
@@ -32,17 +48,35 @@ const App = () => {
       .create(personObject)
       .then(data => {
         setPersons(persons.concat(data))
+        setNotification({
+          message: `Added ${data.name}`,
+          error: false
+        })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setNotification({
+          message: err.message,
+          error: true
+        })
+      })
+
+    clearNotification()
   }
 
   const deletePerson = ( id ) => {
-     PersonServices
+    PersonServices
       .remove(id)
       .then(data => {
         setPersons(prevPersons => prevPersons.filter((person) => person.id !== id))
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setNotification({
+          message: err.message,
+          error: true
+        })
+      })
+
+    clearNotification()
   }
 
   const updateNumber = ( id, name, number ) => {
@@ -61,23 +95,42 @@ const App = () => {
           return person
         })
         setPersons(newPersons)
+        setNotification({
+          message: `Number updated`,
+          error: false
+        })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setNotification({
+          message: err.message,
+          error: true
+        })
+      })
+    
+    clearNotification()
   }
 
   useEffect(() => {
     PersonServices
-    .getAll()
-    .then(data => {
-      setPersons(data)
-    })
-    .catch(err => console.log(err))
+      .getAll()
+      .then(data => {
+        setPersons(data)
+      })
+      .catch(err => {
+        setNotification({
+          message: err.message,
+          error: true
+        })
+      })
+
+    clearNotification()
   },[])
 
 
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification notification={notification}/>
       <Filter handleChangeFilter={handleChangeFilter} filter={filter} />
       <h2>add a new</h2>  
       <Form persons={persons} setNewName={setNewName} setNewNumber={setNewNumber} newName={newName} newNumber={newNumber} handleChangeName={handleChangeName} handleChangeNumber={handleChangeNumber} addPerson={addPerson} updateNumber={updateNumber} />
