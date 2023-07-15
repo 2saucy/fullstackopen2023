@@ -1,4 +1,5 @@
 import Country from "./Country"
+import Show from "./Show"
 
 const Display = ({ countries, filter }) => {
 
@@ -9,17 +10,23 @@ const Display = ({ countries, filter }) => {
     } 
     else if (filteredCountries.length <= 10 && filteredCountries.length > 1){
         return(
-            <ul>
+            <div>
                 {
                     filteredCountries.map(country => (
-                        <li key={country.name.common}>{country.name.common}</li>
+                        <div key={country.name.common}>
+                            <span>{country.name.common}</span>
+                            <Show country={country}/>
+                        </div>
                     ))
                 }
-            </ul>
+            </div>
         )
     } 
-    else{
+    else if (filteredCountries.length === 1){
         return <Country country={filteredCountries[0]} />
+    }
+    else{
+        return <p>No results</p>
     }
 
 }

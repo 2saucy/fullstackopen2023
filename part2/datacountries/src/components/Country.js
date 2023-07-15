@@ -1,3 +1,5 @@
+import Weather from "./Weather"
+
 const Country = ({ country }) => {
 
     return(
@@ -5,7 +7,7 @@ const Country = ({ country }) => {
             <h1>{country.name.common}</h1>
             <p>capital {country.capital}</p>
             <p>population {country.population}</p>
-            <h2>languages</h2>
+            <h2>Spoken languages</h2>
             <ul>
                 {
                     Object.keys(country.languages).map(lang => (
@@ -13,7 +15,8 @@ const Country = ({ country }) => {
                     ))
                 }
             </ul>
-            <img src={country.flags.png} alt="country-flag" />
+            <img src={country.flags.png} alt="Country Flag" />
+            <Weather country={country} />
         </div>
     )
 }

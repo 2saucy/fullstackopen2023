@@ -3,7 +3,6 @@ import {useState, useEffect} from 'react'
 import Search from './components/Search'
 import Display from './components/Display'
 
-
 function App() {
 
   const [countries, setCountries]  = useState([])
@@ -22,13 +21,8 @@ function App() {
     <div className="App">
         <Search filter={filter} setFilter={setFilter} />
         {
-          filter ? (
-            <Display countries={countries} filter={filter}/>
-          ) : (
-            <div></div>
-          )
+          filter ? <Display countries={countries} filter={filter}/> : (<></>)
         }
-  
     </div>
   );
 }
