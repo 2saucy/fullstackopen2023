@@ -1,5 +1,6 @@
 const express = require("express")
 const morgan = require("morgan")
+const cors = require("cors")
 const app = express()
 
 const persons = [
@@ -34,6 +35,7 @@ const generateId = () => {
 
 app.use(express.json())
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :request-body"))
+app.use(cors())
 
 morgan.token("request-body", (req, res) =>  { 
     return JSON.stringify(req.body)
@@ -80,7 +82,7 @@ app.post("/api/persons", (req, res) => {
         id: generateId()
     }
     const newPersons = persons.concat(personObject)
-    res.json(newPersons)
+    res.json(personObject)
 })
 
 app.get("/info", (req, res) => {
