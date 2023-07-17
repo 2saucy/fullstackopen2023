@@ -3,7 +3,7 @@ const morgan = require("morgan")
 const cors = require("cors")
 const app = express()
 
-const persons = [
+let persons = [
     {
         name: "Arto Hellas",
         number: "040-123456",
@@ -58,8 +58,9 @@ app.get("/api/persons/:id", (req, res) => {
 
 app.delete("/api/persons/:id", (req, res) => {
     const id = Number(req.params.id)
-    const newPersons = persons.filter(person => person.id !== id)
-    res.json(newPersons)
+    const deletedPerson = persons.filter(person => person.id === id)
+    persons = persons.filter(person => person.id !== id)
+    res.json({ message: "the person was successfully removed", deletedPerson: deletedPerson})
 })
 
 app.post("/api/persons", (req, res) => {
@@ -81,7 +82,7 @@ app.post("/api/persons", (req, res) => {
         number: body.number,
         id: generateId()
     }
-    const newPersons = persons.concat(personObject)
+    persons = persons.concat(personObject)
     res.json(personObject)
 })
 
