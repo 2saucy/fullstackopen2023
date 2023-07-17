@@ -1,4 +1,5 @@
 const express = require("express")
+const morgan = require("morgan")
 const app = express()
 
 const persons = [
@@ -32,9 +33,15 @@ const generateId = () => {
 }
 
 app.use(express.json())
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :request-body"))
+
+morgan.token("request-body", (req, res) =>  { 
+    return JSON.stringify(req.body)
+})
+
 
 app.get("/", (req, res) => {
-    res.send('Welcome to Phonebook API')
+    res.send("Welcome to Phonebook API")
 })
 
 app.get("/api/persons", (req, res) => {
