@@ -1,7 +1,21 @@
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
+const mongoose = require('mongoose')
 const app = express()
+const Person = require('./models/Person')
+
+
+const persons = [
+    {
+        name: "Joe",
+        number: "00-00-000000"
+    },
+    {
+        name: "Billy",
+        number: "00-00-000000"
+    }
+]
 
 app.use(cors())
 app.use(express.json())
@@ -16,21 +30,25 @@ app.get("/", (req, res) => {
 })
 
 app.get("/api/persons", (req, res) => {
-    Person.find({})
-    .then(person => res.json(person))
+    Person
+        .find({})
+        .then(person => res.json(person))
 })
 
 app.get("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.filter(person => person.id === id)
-    res.json(person)
+    const id = req.params.id
+    Person
+        .findById(id)
+        .then(person => res.json(person))
+        .catch(err => res.json({ message: err.message }))
+
 })
 
 app.delete("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const deletedPerson = persons.filter(person => person.id === id)
-    persons = persons.filter(person => person.id !== id)
-    res.json({ message: "the person was successfully removed", deletedPerson: deletedPerson})
+//      const id = Number(req.params.id)
+//      const deletedPerson = persons.filter(person => person.id === id)
+//      persons = persons.filter(person => person.id !== id)
+//      res.json({ message: "the person was successfully removed", deletedPerson: deletedPerson})
 })
 
 app.post("/api/persons", (req, res) => {
@@ -41,18 +59,19 @@ app.post("/api/persons", (req, res) => {
             error: 'content missing' 
         })
     }
-    else if(persons.find(person => person.name === body.name)){
-        return res.status(401).json({ 
-            error: 'name must be unique' 
-        })
-    }
 
-    const personObject = {
+    const personObject = new Person({
         name: body.name,
-        number: body.number,
-        id: generateId()
-    }
-    persons = persons.concat(personObject)
+        number: body.number
+    })
+
+    personObject
+        .save()
+        .then(() => {
+            console.log(`added ${personObject.name} number ${personObject.number} to phonebook`)
+            mongoose.connection.close()
+        })
+
     res.json(personObject)
 })
 
