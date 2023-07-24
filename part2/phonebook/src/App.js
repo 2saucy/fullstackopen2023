@@ -54,8 +54,9 @@ const App = () => {
         })
       })
       .catch(err => {
+        const message = err.response.data
         setNotification({
-          message: err.message,
+          message: message.error,
           error: true
         })
       })

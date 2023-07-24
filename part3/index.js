@@ -1,7 +1,6 @@
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
-const mongoose = require('mongoose')
 const app = express()
 const Person = require('./models/Person')
 
@@ -63,8 +62,8 @@ app.put("/api/persons/:id", (req, res, next) => {
     }
 
     Person
-        .findByIdAndUpdate(id, updatedPerson, { new: true })
-        .then((result) => res.json(result))
+        .findByIdAndUpdate(id, updatedPerson, { runValidators: true, context: 'query' })
+        .then((result) => res.json(updatedPerson))
         .catch(err => next(err))
 })
 
@@ -85,8 +84,12 @@ app.post("/api/persons", (req, res, next) => {
     newPerson
         .save()
         .then((result) => res.json(result))
-        .catch(err => next(err))
-
+        .catch(err => {
+            if(err.name == "ValidationError"){
+                return res.status(400).json({ error: err.message });
+            }
+            next(err)
+        })
 })
 
 app.get("/info", async (req, res) => {
@@ -113,7 +116,7 @@ const errorHandler = (error, req, res, next) => {
 
 app.use(errorHandler)
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running in port ${PORT}.`)
 })
