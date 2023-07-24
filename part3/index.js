@@ -56,14 +56,19 @@ app.put("/api/persons/:id", (req, res, next) => {
         })
     }
 
-    const updatedPerson = {
-        name: body.name,
+    const updatedNumber = {
         number: body.number
     }
 
     Person
-        .findByIdAndUpdate(id, updatedPerson, { runValidators: true, context: 'query' })
-        .then((result) => res.json(updatedPerson))
+        .findOneAndUpdate({ _id: id }, updatedNumber, { runValidators: true, context: 'query' })
+        .then((result) => {
+            if (result) {
+                res.json({ name: body.name, number: body.number });
+            } else {
+                return res.status(404).json({ error: 'Person not found' });
+            }
+        })
         .catch(err => next(err))
 })
 
