@@ -1,27 +1,18 @@
+const config = require('./utils/config')
 const express = require('express')
-const cors = require('cors')
+require('express-async-errors')
 const app = express()
-const blogController = require('./controllers/blogs') 
+const cors = require('cors')
+const blogsRouter = require('./controllers/blogs')
+const mongoose = require('mongoose')
 
-app.use(express.json())
+mongoose.connect(config.MONGODB_URI)
+  .then(() => console.log('You are now connected to MongoDB.'))
+  .catch(error => console.log('Error trying connect to MongoDB ', error.message))
+
 app.use(cors())
+app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.send('Blog API')
-})
-app.get('/api/blogs', (req, res) => {
-    blogController
-        .getAll()
-        .then(result => {
-            res.json(result)
-        })
-})
-app.post('/api/blogs', (req, res) => {
-    blogController
-        .create(req.body)
-        .then(result => {
-            res.status(201).json(result)
-        })
-})
+app.use('/api/blogs', blogsRouter)
 
 module.exports = app
