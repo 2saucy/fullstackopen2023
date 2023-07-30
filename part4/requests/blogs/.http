@@ -1,0 +1,28 @@
+GET http://localhost:3001/api/blogs HTTP/1.1
+###
+GET http://localhost:3001/api/blogs/:id HTTP/1.1
+###
+POST http://localhost:3001/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY0YzQyNjA5Y2M5YzNhNjc0Y2Q4MGM0MSIsImlhdCI6MTY5MDcxMTkzOH0.BrxeuCu3cwKfHzw8qfmHjipYO0CBiXXyF_B982aXPuE
+
+{
+    "title": "Full Stack Open 2023 Course",
+    "author": "2saucy",
+    "url": "https://github.com/"
+}
+
+###
+DELETE http://localhost:3001/api/blogs/64c6379c473aa3cfb7724773 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld3VzZXIiLCJpZCI6IjY0YzYzNzI4NDczYWEzY2ZiNzcyNDc2NyIsImlhdCI6MTY5MDcxMTk5Mn0.aX1cXcVOxzbIlb1yRbCCZqBr6Dr9tK5uGVNeM9bFCkA
+
+###
+PUT http://localhost:3001/api/blogs/:id HTTP/1.1
+Content-Type: application/json
+{
+    "title": "Update",
+    "author": "2saucy",
+    "url": "www.idontknow.com",
+    "likes": 0
+}
+###
