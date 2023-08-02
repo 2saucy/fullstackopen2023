@@ -1,8 +1,8 @@
-GET http://localhost:3001/api/users HTTP/1.1
+GET http://localhost:3003/api/users HTTP/1.1
 ###
-GET http://localhost:3001/api/users/64c425cfcc9c3a674cd80c3a HTTP/1.1
+GET http://localhost:3003/api/users/64c425cfcc9c3a674cd80c3a HTTP/1.1
 ###
-POST http://localhost:3001/api/users HTTP/1.1
+POST http://localhost:3003/api/users HTTP/1.1
 Content-Type: application/json
 
 {
@@ -10,5 +10,5 @@ Content-Type: application/json
     "name": "Juanito"
 }
 ###
-DELETE http://localhost:3001/api/users/64c425cfcc9c3a674cd80c3a HTTP/1.1
+DELETE http://localhost:3003/api/users/64c425cfcc9c3a674cd80c3a HTTP/1.1
 ###

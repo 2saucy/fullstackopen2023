@@ -21,7 +21,8 @@ const App = () => {
     blogService
       .getAll()
       .then(blogs => {
-        setBlogs(blogs)
+        const sortedBlogs = blogs.sort((blogA, blogB) => blogB.likes - blogA.likes)
+        setBlogs(sortedBlogs)
       })
   }, [])
 
@@ -41,6 +42,7 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
+      console.log(user)
       setUser(user)
     }catch (err) {
       const message = err.response.data.error
@@ -83,7 +85,8 @@ const App = () => {
               return b
             }
           })
-          setBlogs(blogsUpdate)
+          const sortedBlogs = blogsUpdate.sort((blogA, blogB) => blogB.likes - blogA.likes)
+          setBlogs(sortedBlogs)
         })
     }catch(err){
       const message = err.response.data.error
@@ -96,7 +99,7 @@ const App = () => {
     try{
       blogService
         .remove(id)
-        .then(res => {
+        .then(() => {
           const blogsUpdate = blogs.filter(blog => blog.id !== id)
           setBlogs(blogsUpdate)
           setNotification({ message: 'the blog was successfully removed', error: false })
@@ -121,6 +124,8 @@ const App = () => {
       })
     }, 3000)
   }
+
+
 
   if (user === null){
     return (

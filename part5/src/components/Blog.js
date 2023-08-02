@@ -34,15 +34,17 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
 
   return(
     <div className="blog">
-      <span>{blog.title} {blog.author}</span>
+      <span className='blog__title-author'>{blog.title} {blog.author}</span>
       <button onClick={changeVisibility}>{isVisible.btnLabel}</button>
       {
         !isVisible.visible ? null : (
           <>
-            <p>{blog.url}</p>
-            <span>{blog.likes}</span> <button onClick={handleLikes}>like</button>
-            <p>{user.name}</p>
-            <button onClick={handleRemove}>remove</button>
+            <p className='blog__url'>{blog.url}</p>
+            <span className='blog__likes'>{blog.likes}</span> <button className='like-button' onClick={handleLikes}>like</button>
+            <p className='blog__username'>{user.name}</p>
+            {
+              user.username !== blog.user.username ? null : <button onClick={handleRemove}>remove</button>
+            }
           </>
         )
       }
